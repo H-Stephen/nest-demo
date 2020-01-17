@@ -11,20 +11,19 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
   
-  async getUsers() {
-    const allUsers = await this.userRepository.find();
-    return {
-      code: 10,
-      message:"success",
-      payload: allUsers
-    }
-  }
-  
   /**
    * 获取用户详情
    * @param id string
    */
-  async getUser(id) {
+  async getUser( id='all' ) {
+    if(id==='all'){
+      const allUsers = await this.userRepository.find();
+      return {
+        code: 10,
+        message:"success",
+        payload: allUsers
+      }
+    }
     const user = await this.userRepository.findOne({ userId: id });
     if(!user) {
       return {
